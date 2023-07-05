@@ -36,6 +36,7 @@ class BookcaseProvider with ChangeNotifier {
   void atualizarItemAfazer(int idx) {
     if (selecionado != null) {
       _listBook[idx] = _select!;
+      service.save(_listBook);
       notifyListeners();
     }
   }

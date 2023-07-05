@@ -49,22 +49,21 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              flex: 1,
-              child: Row(
-                children: [
-                  Card(
-                      elevation: 4.0,
-                      child: Container(
-                        height: 200.0,
-                        width: 400,
-                        child: Text('image'),
-                      )),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  Column(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Card(
+                    elevation: 4.0,
+                    child: Container(
+                      height: 200.0,
+                      width: 400,
+                      child: Text('image'),
+                    )),
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         item!.title,
@@ -84,10 +83,11 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                         ],
                       )
                     ],
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
+            const Divider(),
             const SizedBox(
               height: 50,
             ),
@@ -102,14 +102,15 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   children: [
                     Text('Lidas:'),
                     Text(item!.numberPageRead.toString()),
+                    IconButton(
+                      onPressed: () {
+                        store.selecionado = item;
+                        openModalUpdateItemBook(context);
+                      },
+                      icon: Icon(Icons.edit_rounded),
+                    )
                   ],
                 ),
-                IconButton(
-                    onPressed: () {
-                      store.selecionado = item;
-                      openModalUpdateItemBook(context);
-                    },
-                    icon: Icon(Icons.edit))
               ],
             )
           ],
@@ -125,6 +126,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
         return SimpleDialog(
           children: [
             BookDetailsEditDialog(callback: (number) {
+              store.selecionado = item;
               store.selecionado?.numberPageRead = number;
               store.atualizarItemAfazer(index);
             })

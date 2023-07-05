@@ -3,8 +3,8 @@ import 'package:minha_estante/components/app_bar_componet.dart';
 
 class BodyComponent extends StatelessWidget {
   final Widget child;
-  final List<BottomNavigationBarItem> items;
-  const BodyComponent({super.key, required this.child, required this.items});
+  final List<BottomNavigationBarItem>? items;
+  const BodyComponent({super.key, required this.child, this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class BodyComponent extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
-        items: items,
+        items: items!,
       ),
     );
   }

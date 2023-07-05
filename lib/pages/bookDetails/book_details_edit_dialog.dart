@@ -23,7 +23,6 @@ class _BookDetailsEditDialogState extends State<BookDetailsEditDialog> {
         TextFormField(
           controller: _controllerNumberPageEdit,
           decoration: const InputDecoration(
-            hintText: '0',
             labelText: 'Numero de páginas lidas',
           ),
           keyboardType: TextInputType.number,
@@ -35,6 +34,9 @@ class _BookDetailsEditDialogState extends State<BookDetailsEditDialog> {
                 ? 'Por favor digite um valor'
                 : null;
           },
+        ),
+        SizedBox(
+          height: 15,
         ),
         ElevatedButton(
             onPressed: () {
