@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:minha_estante/components/app_bar_componet.dart';
-import 'package:minha_estante/components/body_components.dart';
+import 'package:minha_estante/commons/components/app_bar_componet.dart';
+import 'package:minha_estante/commons/components/body_components.dart';
 import 'package:minha_estante/pages/tabs/bookcase_page.dart';
 
 class HomePage extends StatefulWidget {

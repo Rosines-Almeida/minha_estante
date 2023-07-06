@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:minha_estante/commons/components/space_component.dart';
+import 'package:minha_estante/commons/helpers/convert_upper_case.dart';
 import 'package:minha_estante/entities/books_entity.dart';
 import 'package:minha_estante/enum/book_state_enum.dart';
 import 'package:minha_estante/providers/bookcase_provider.dart';
@@ -26,7 +28,7 @@ class _BookCaseFormDialogState extends State<BookCaseFormDialog> {
     final isValido = _formKey.currentState!.validate();
     if (isValido) {
       final item = BooksEntity(
-        title: _controllerTitle.text,
+        title: convertToUpperCase(_controllerTitle.text),
         numberPage: int.parse(_controllerNumberPage.text),
         // state: StateBook.lerDepois,
         uuid: 'uuid',
@@ -57,9 +59,7 @@ class _BookCaseFormDialogState extends State<BookCaseFormDialog> {
                   },
                 ),
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SpacerComponent(),
               const Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
@@ -70,9 +70,7 @@ class _BookCaseFormDialogState extends State<BookCaseFormDialog> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SpacerComponent(),
               TextFormField(
                 controller: _controllerTitle,
                 decoration: const InputDecoration(hintText: 'Título do livro'),
@@ -82,9 +80,7 @@ class _BookCaseFormDialogState extends State<BookCaseFormDialog> {
                       : null;
                 },
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SpacerComponent(),
               TextFormField(
                 controller: _controllerNumberPage,
                 decoration:
@@ -99,9 +95,7 @@ class _BookCaseFormDialogState extends State<BookCaseFormDialog> {
                       : null;
                 },
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SpacerComponent(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

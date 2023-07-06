@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:minha_estante/components/bar_progress_component.dart';
-import 'package:minha_estante/components/body_components.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:minha_estante/commons/components/bar_progress_component.dart';
+import 'package:minha_estante/commons/components/body_components.dart';
+import 'package:minha_estante/commons/components/space_component.dart';
+import 'package:minha_estante/commons/helpers/calculate_percetage.dart';
 import 'package:minha_estante/entities/books_entity.dart';
 import 'package:minha_estante/pages/bookDetails/book_details_edit_dialog.dart';
 import 'package:minha_estante/providers/bookcase_provider.dart';
+import 'package:minha_estante/services/image_picker_service.dart';
 import 'package:provider/provider.dart';
 
 class BookDetailsPage extends StatefulWidget {
   const BookDetailsPage({
     super.key,
-    // this.item,
   });
 
   @override
@@ -17,11 +20,46 @@ class BookDetailsPage extends StatefulWidget {
 }
 
 class _BookDetailsPageState extends State<BookDetailsPage> {
-  BooksEntity? item;
+  late BooksEntity item;
 
   late bool editNumber = false;
   late BookcaseProvider store;
   late int index;
+  late double valuePercentage = 0;
+
+  double toCalculatePercetage() {
+    valuePercentage = calculatePercetage(item.numberPageRead, item.numberPage);
+
+    setState(() {
+      valuePercentage = valuePercentage;
+    });
+    return valuePercentage;
+  }
+
+  void onEditImage() async {
+    final pickerService = PickerService();
+    final image = await pickerService.getImage(ImageSource.gallery);
+    if (image != null) {
+      final base64 = pickerService.base64(await image.readAsBytes());
+
+      store.selecionado = item;
+      store.selecionado!.image = base64;
+      store.atualizarItemAfazer(index);
+    }
+  }
+
+  Widget makeImage() {
+    if (item.image != null) {
+      return Image.memory(
+        PickerService().decodeBase64(item.image!),
+        fit: BoxFit.cover,
+      );
+    }
+    return const Icon(
+      Icons.image_search,
+      size: 100,
+    );
+  }
 
   @override
   void didChangeDependencies() {
@@ -44,76 +82,103 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
         BottomNavigationBarItem(
             icon: Icon(Icons.account_circle), label: 'Perfil')
       ],
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Card(
-                    elevation: 4.0,
-                    child: Container(
-                      height: 200.0,
-                      width: 400,
-                      child: Text('image'),
-                    )),
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        item!.title,
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      const BarProgressComponents(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
+                      elevation: 4.0,
+                      child: Stack(
                         children: [
-                          const Text('90 %'),
-                          const SizedBox(
-                            width: 20,
+                          Container(
+                            width: 200,
+                            height: 300,
+                            color: Colors.amber[100],
+                            child: makeImage(),
                           ),
-                          Text('${item!.numberPageRead}/${item!.numberPage}'),
+                          Positioned(
+                            bottom: 18,
+                            right: 18,
+                            //todo: add icon
+                            child: IconButton(
+                              onPressed: () {
+                                onEditImage();
+                              },
+                              icon: const Icon(Icons.edit),
+                              iconSize: 24,
+                            ),
+                          ),
                         ],
+                      )),
+                  const SpacerComponent(
+                    isHorizontal: true,
+                    size: 30,
+                  ),
+                  Container(
+                      width: 200,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SpacerComponent(),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                item.title,
+                              ),
+                            ),
+                            const SpacerComponent(
+                              size: 20,
+                            ),
+                            BarProgressComponents(
+                              index: index,
+                            ),
+                            const SpacerComponent(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                    '${toCalculatePercetage().toStringAsFixed(0)} %'),
+                                const SpacerComponent(
+                                  isHorizontal: true,
+                                ),
+                                Text(
+                                    '${item.numberPageRead}/${item.numberPage}'),
+                              ],
+                            )
+                          ]))
+                ],
+              ),
+              const Divider(),
+              const SpacerComponent(
+                size: 50,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Total de páginas: ${item.numberPage}'),
+                  const SpacerComponent(),
+                  Row(
+                    children: [
+                      Text('Lidas:'),
+                      Text(item.numberPageRead.toString()),
+                      IconButton(
+                        onPressed: () {
+                          store.selecionado = item;
+                          openModalUpdateItemBook(context);
+                        },
+                        icon: Icon(Icons.edit_note_rounded),
                       )
                     ],
                   ),
-                )
-              ],
-            ),
-            const Divider(),
-            const SizedBox(
-              height: 50,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Total de páginas: ${item!.numberPage}'),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    Text('Lidas:'),
-                    Text(item!.numberPageRead.toString()),
-                    IconButton(
-                      onPressed: () {
-                        store.selecionado = item;
-                        openModalUpdateItemBook(context);
-                      },
-                      icon: Icon(Icons.edit_rounded),
-                    )
-                  ],
-                ),
-              ],
-            )
-          ],
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

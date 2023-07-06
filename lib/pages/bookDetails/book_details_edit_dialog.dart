@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:minha_estante/commons/components/space_component.dart';
 import 'package:minha_estante/providers/bookcase_provider.dart';
 
 class BookDetailsEditDialog extends StatefulWidget {
@@ -35,9 +36,7 @@ class _BookDetailsEditDialogState extends State<BookDetailsEditDialog> {
                 : null;
           },
         ),
-        SizedBox(
-          height: 15,
-        ),
+        const SpacerComponent(),
         ElevatedButton(
             onPressed: () {
               widget.callback(int.parse(_controllerNumberPageEdit.text));

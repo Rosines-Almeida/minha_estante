@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minha_estante/components/app_bar_componet.dart';
+import 'package:minha_estante/commons/components/app_bar_componet.dart';
 
 class BodyComponent extends StatelessWidget {
   final Widget child;

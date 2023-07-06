@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:minha_estante/app_routes.dart';
+import 'package:minha_estante/commons/components/space_component.dart';
 import 'package:minha_estante/entities/books_entity.dart';
+import 'package:minha_estante/services/image_picker_service.dart';
 
 class HomeCardComponent extends StatelessWidget {
   final BooksEntity item;
   final int index;
   const HomeCardComponent({super.key, required this.item, required this.index});
+
+  Widget makeImage() {
+    if (item.image != null) {
+      return Image.memory(
+        PickerService().decodeBase64(item.image!),
+        fit: BoxFit.cover,
+        height: 150,
+      );
+    }
+    return const Icon(
+      Icons.library_books_rounded,
+      size: 150,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,43 +30,31 @@ class HomeCardComponent extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: ListView(
+      child: Padding(
         padding: const EdgeInsets.all(20),
-        children: [
-          item.image == null
-              ? Container(
-                  height: 400.0,
-                  color: Colors.grey[300],
-                  child: Center(
-                      child: Text(
-                    'Adicione uma imagem',
-                    style: TextStyle(
-                        color: Colors.grey[850], fontWeight: FontWeight.w700),
-                  )),
-                )
-              : Container(),
-          const SizedBox(
-            height: 20,
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Text(item.title),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ButtonBar(
-            children: [
-              TextButton(
-                child: const Text('Ver Mais'),
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.bookDetails,
-                      arguments: index);
-                },
-              ),
-            ],
-          ),
-        ],
+        child: Wrap(
+          // padding: const EdgeInsets.all(20),
+          children: [
+            Center(child: makeImage()),
+            const SpacerComponent(),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(item.title),
+            ),
+            const SpacerComponent(),
+            ButtonBar(
+              children: [
+                TextButton(
+                  child: const Text('Ver Mais'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.bookDetails,
+                        arguments: index);
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
