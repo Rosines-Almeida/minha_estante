@@ -44,8 +44,15 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
 
       store.selecionado = item;
       store.selecionado!.image = base64;
-      store.atualizarItemAfazer(index);
+      store.updateItemBook(index);
     }
+  }
+
+  void removeItemBook() {
+    store.selecionado = item;
+
+    store.removeItemBook(index);
+    Navigator.pop(context);
   }
 
   Widget makeImage() {
@@ -77,11 +84,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     item = store.listBook.elementAt(index);
     return BodyComponent(
       // TODO: alterar o itens
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle), label: 'Perfil')
-      ],
+
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -150,9 +153,10 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                                     '${item.numberPageRead}/${item.numberPage}'),
                               ],
                             )
-                          ]))
+                          ])),
                 ],
               ),
+              const SpacerComponent(),
               const Divider(),
               const SpacerComponent(
                 size: 50,
@@ -162,19 +166,29 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 children: [
                   Text('Total de páginas: ${item.numberPage}'),
                   const SpacerComponent(),
+                  Text('Lidas: ${item.numberPageRead.toString()}'),
+                  const SpacerComponent(),
+                  const Divider(),
+                  const SpacerComponent(),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text('Lidas:'),
-                      Text(item.numberPageRead.toString()),
                       IconButton(
                         onPressed: () {
                           store.selecionado = item;
                           openModalUpdateItemBook(context);
                         },
                         icon: Icon(Icons.edit_note_rounded),
-                      )
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          store.selecionado = item;
+                          removeItemBook();
+                        },
+                        icon: Icon(Icons.bookmark_remove_outlined),
+                      ),
                     ],
-                  ),
+                  )
                 ],
               )
             ],
@@ -193,7 +207,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
             BookDetailsEditDialog(callback: (number) {
               store.selecionado = item;
               store.selecionado?.numberPageRead = number;
-              store.atualizarItemAfazer(index);
+              store.updateItemBook(index);
             })
           ],
         );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minha_estante/entities/books_entity.dart';
-import 'package:minha_estante/pages/tabs/bookcase_form_dialog.dart';
+import 'package:minha_estante/pages/tabs/components/bookcase_form_dialog.dart';
 import 'package:minha_estante/services/bookcase_service.dart';
 
 class BookcaseProvider with ChangeNotifier {
@@ -33,7 +33,7 @@ class BookcaseProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void atualizarItemAfazer(int idx) {
+  void updateItemBook(int idx) {
     if (selecionado != null) {
       _listBook[idx] = _select!;
       service.save(_listBook);
@@ -45,6 +45,12 @@ class BookcaseProvider with ChangeNotifier {
     _listBook = val;
     service.save(_listBook);
     print(_listBook);
+    notifyListeners();
+  }
+
+  void removeItemBook(int index) {
+    listBook.removeAt(index);
+    service.save(listBook);
     notifyListeners();
   }
 

@@ -12,9 +12,9 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: const [
         Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.only(right: 16),
           child: CircleAvatar(
-            child: Text('RA'),
+            child: Icon(Icons.person_2_sharp),
           ),
         )
       ],
