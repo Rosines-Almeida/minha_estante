@@ -89,8 +89,6 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     store = Provider.of<BookcaseProvider>(context);
     item = store.listBook.elementAt(index);
     return BodyComponent(
-      // TODO: alterar o itens
-
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -113,7 +111,6 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                           Positioned(
                             bottom: 18,
                             right: 18,
-                            //todo: add icon
                             child: IconButton(
                               onPressed: () {
                                 onEditImage();
@@ -204,7 +201,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                       IconButton(
                         onPressed: () {
                           store.selecionado = item;
-                          openModalUpdateItemBook(context);
+                          openModalUpdateItemBook(context, item.numberPage);
                         },
                         icon: Icon(Icons.edit_note_rounded),
                       ),
@@ -226,17 +223,19 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     );
   }
 
-  void openModalUpdateItemBook(BuildContext context) {
+  void openModalUpdateItemBook(BuildContext context, int numberMaxPag) {
     showDialog(
       context: context,
       builder: (context) {
         return SimpleDialog(
           children: [
-            BookDetailsEditDialog(callback: (number) {
-              store.selecionado = item;
-              store.selecionado?.numberPageRead = number;
-              store.updateItemBook(index);
-            })
+            BookDetailsEditDialog(
+                numberMaxPag: numberMaxPag,
+                callback: (number) {
+                  store.selecionado = item;
+                  store.selecionado?.numberPageRead = number;
+                  store.updateItemBook(index);
+                })
           ],
         );
       },

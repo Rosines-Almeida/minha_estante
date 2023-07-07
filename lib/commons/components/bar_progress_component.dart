@@ -25,7 +25,7 @@ class _BarProgressComponentsState extends State<BarProgressComponents> {
   @override
   void initState() {
     valueToBarProgress = widget.index / 100;
-    print(valueToBarProgress);
+
     super.initState();
   }
 
@@ -37,11 +37,11 @@ class _BarProgressComponentsState extends State<BarProgressComponents> {
         width: 200.0,
         lineHeight: 20.0,
         percent: onValueToBarProgress(),
-        backgroundColor: Color.fromARGB(255, 206, 199, 199),
-        progressColor: Color(0xff606C5D),
+        backgroundColor: const Color.fromARGB(255, 206, 199, 199),
+        progressColor: const Color(0xff606C5D),
         animation: true,
         animationDuration: 1000,
-        barRadius: Radius.circular(10),
+        barRadius: const Radius.circular(10),
       ),
     );
   }

@@ -37,31 +37,33 @@ class HomeCardComponent extends StatelessWidget {
             Center(child: makeImage()),
             const SpacerComponent(),
             const Divider(),
-            const SpacerComponent(),
             Padding(
-              padding: const EdgeInsets.only(top: 16.0),
+              padding: const EdgeInsets.only(top: 4.0),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
                   item.title,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ),
-            const SpacerComponent(),
-            ButtonBar(
-              children: [
-                TextButton(
-                  child: const Text('Ver Mais'),
-                  onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.bookDetails,
-                        arguments: index);
-                  },
-                ),
-              ],
+            const SpacerComponent(size: 5),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: ButtonBar(
+                children: [
+                  TextButton(
+                    child: const Text('Ver Mais'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRoutes.bookDetails,
+                          arguments: index);
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),

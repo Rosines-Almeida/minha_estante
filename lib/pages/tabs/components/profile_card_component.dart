@@ -24,7 +24,7 @@ class ProfileCardComponent extends StatelessWidget {
                 color: Colors.blueGrey[300]!,
                 width: 1.0,
               ),
-              borderRadius: BorderRadius.circular(10), // Raio do canto
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Column(children: [
               Container(

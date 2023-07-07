@@ -4,7 +4,9 @@ import 'package:minha_estante/commons/components/space_component.dart';
 import 'package:minha_estante/providers/bookcase_provider.dart';
 
 class BookDetailsEditDialog extends StatefulWidget {
-  const BookDetailsEditDialog({super.key, required this.callback});
+  const BookDetailsEditDialog(
+      {super.key, required this.callback, required this.numberMaxPag});
+  final int numberMaxPag;
   final void Function(int numberPage) callback;
 
   @override
@@ -12,6 +14,7 @@ class BookDetailsEditDialog extends StatefulWidget {
 }
 
 class _BookDetailsEditDialogState extends State<BookDetailsEditDialog> {
+  final _formKey = GlobalKey<FormState>();
   final _controllerNumberPageEdit = TextEditingController();
   late BookcaseProvider store;
 
@@ -21,29 +24,43 @@ class _BookDetailsEditDialogState extends State<BookDetailsEditDialog> {
       padding: const EdgeInsets.all(20),
       child: Column(children: [
         const Text('Atualize os dados'),
-        TextFormField(
-          controller: _controllerNumberPageEdit,
-          decoration: const InputDecoration(
-            labelText: 'Numero de páginas lidas',
+        Form(
+          key: _formKey,
+          child: TextFormField(
+            controller: _controllerNumberPageEdit,
+            decoration: const InputDecoration(
+              labelText: 'Numero de páginas lidas',
+            ),
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor digite um valor';
+              } else if (int.parse(value) > widget.numberMaxPag) {
+                return 'Número inválido';
+              } else {
+                return null;
+              }
+            },
           ),
-          keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-          ],
-          validator: (value) {
-            return (value == null || value.isEmpty)
-                ? 'Por favor digite um valor'
-                : null;
-          },
         ),
         const SpacerComponent(),
         ElevatedButton(
             onPressed: () {
-              widget.callback(int.parse(_controllerNumberPageEdit.text));
-              Navigator.pop(context);
+              handleSubimit();
             },
-            child: Text('Confirmar'))
+            child: const Text('Confirmar'))
       ]),
     );
+  }
+
+  handleSubimit() {
+    final isValido = _formKey.currentState!.validate();
+    if (isValido) {
+      widget.callback(int.parse(_controllerNumberPageEdit.text));
+      Navigator.pop(context);
+    }
   }
 }

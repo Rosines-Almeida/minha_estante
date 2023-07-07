@@ -44,7 +44,6 @@ class BookcaseProvider with ChangeNotifier {
   set listBook(List<BooksEntity> val) {
     _listBook = val;
     service.save(_listBook);
-    print(_listBook);
     notifyListeners();
   }
 
