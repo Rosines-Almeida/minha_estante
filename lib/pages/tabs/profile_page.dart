@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:minha_estante/pages/tabs/components/profile_card_component.dart';
 import 'package:minha_estante/providers/bookcase_provider.dart';
+import 'package:minha_estante/providers/config_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -11,16 +13,10 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late BookcaseProvider store;
-  late int inProgress;
-  late int notInProgres;
+  late ConfigProvider storeConfig;
 
-  //metodo para pecorrer quantos estão com paginas lidas
   @override
   void initState() {
-    inProgress = 0;
-    notInProgres = 0;
-    // setBookInProgress();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -36,139 +32,75 @@ class _ProfilePageState extends State<ProfilePage> {
 
   int setBookConcluded() {
     return store.listBook.where((e) => e.numberPageRead == e.numberPage).length;
-  };
-
-
-
+  }
 
   @override
   Widget build(BuildContext context) {
     store = Provider.of<BookcaseProvider>(context);
-    //   return Text(
-    //       'oi ${store.listBook.length}, ${setBookInProgress()}, ${setBookNotInProgress()}, ${setBookConcluded()}');
-    // }
+    storeConfig = Provider.of<ConfigProvider>(context);
 
-      final List<Map> item = [
-    { 
-      'title':' Livros na Estante',
-      'numberOfBook': store.listBook.length,
-    },
-     { 
-      'title':'Lendo',
-      'numberOfBook': setBookInProgress(),
-    },
-   ]  ;
+    final List<Map> bookCase = [
+      {
+        'title': ' Livros na Estante',
+        'numberOfBook': store.listBook.length,
+        'icon': Icons.bookmarks_rounded,
+      },
+      {
+        'title': 'Lendo',
+        'numberOfBook': setBookInProgress(),
+        'icon': Icons.bookmark_rounded,
+      },
+      {
+        'title': 'Concluídos',
+        'numberOfBook': setBookConcluded(),
+        'icon': Icons.bookmark_added_rounded
+      },
+      {
+        'title': 'Ler depois',
+        'numberOfBook': setBookNotInProgress(),
+        'icon': Icons.bookmark_border_rounded
+      },
+    ];
 
-    return GridView(
-        padding: EdgeInsets.all(10),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20,
-        ),
+    return SingleChildScrollView(
+      child: Column(
         children: [
-          Wrap(children: [
-            Container(
-              height: 100,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blueGrey[300]!,
-                  width: 1.0,
-                ),
-                borderRadius: BorderRadius.circular(10), // Raio do canto
-              ),
-              child: Column(children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey[300]!,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.book_online_rounded,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          'Livros Concluídos',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      store.listBook.length.toString(),
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                )
-              ]),
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 400,
+              maxHeight: 400,
             ),
-          ]),
-          Wrap(children: [
-            Container(
-              height: 100,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blueGrey[300]!,
-                  width: 1.0,
+            child: GridView.builder(
+                padding: const EdgeInsets.all(10),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 0,
+                  crossAxisSpacing: 20,
                 ),
-                borderRadius: BorderRadius.circular(10), // Raio do canto
+                itemCount: bookCase.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = bookCase.elementAt(index);
+                  return ProfileCardComponent(
+                    title: item['title'],
+                    numberOfBook: item['numberOfBook'],
+                    icon: item['icon'],
+                  );
+                }),
+          ),
+          Divider(),
+          Row(
+            children: [
+              Text('Tema escuro'),
+              Switch(
+                value: storeConfig.tema == ThemeMode.dark,
+                onChanged: (val) {
+                  storeConfig.tema = val ? ThemeMode.dark : ThemeMode.light;
+                },
               ),
-              child: Column(children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey[300]!,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.book_online_rounded,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          'Livros Concluídos',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      store.listBook.length.toString(),
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                )
-              ]),
-            ),
-          ]),
-        ]);
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

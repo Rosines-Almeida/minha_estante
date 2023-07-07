@@ -8,7 +8,10 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: const Padding(
         padding: EdgeInsets.all(16),
-        child: Text('Minha Estande virtual'),
+        child: Text(
+          'Minha Estante virtual',
+          style: TextStyle(fontWeight: FontWeight.w800),
+        ),
       ),
       actions: const [
         Padding(

@@ -27,6 +27,12 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   late int index;
   late double valuePercentage = 0;
 
+  @override
+  void initState() {
+    index = 0;
+    super.initState();
+  }
+
   double toCalculatePercetage() {
     valuePercentage = calculatePercetage(item.numberPageRead, item.numberPage);
 
@@ -132,6 +138,8 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 item.title,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
                               ),
                             ),
                             const SpacerComponent(
@@ -164,9 +172,29 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Total de páginas: ${item.numberPage}'),
+                  Row(
+                    children: [
+                      const Text('Total de páginas: ',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      const SpacerComponent(
+                        isHorizontal: true,
+                        size: 5,
+                      ),
+                      Text('${item.numberPage}')
+                    ],
+                  ),
                   const SpacerComponent(),
-                  Text('Lidas: ${item.numberPageRead.toString()}'),
+                  Row(children: [
+                    const Text(
+                      'Lidas:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SpacerComponent(
+                      isHorizontal: true,
+                      size: 5,
+                    ),
+                    Text(item.numberPageRead.toString()),
+                  ]),
                   const SpacerComponent(),
                   const Divider(),
                   const SpacerComponent(),
