@@ -12,7 +12,7 @@ class PalletDark implements PalleteStyle {
   Color background = Colors.grey[800]!;
 
   @override
-  Color backgroundDark = Colors.grey[900]!;
+  Color backgroundDark = Colors.grey[800]!;
 
   @override
   Color error = Colors.red;

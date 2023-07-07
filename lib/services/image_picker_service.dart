@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 class PickerService {
   static const int IMAGE_QUALITY = 70;
 
-  static const double MAX_HEIGHT = 150, MAX_WIDTH = 480;
+  static const double MAX_HEIGHT = 720, MAX_WIDTH = 480;
 
   Future<XFile?> getImage(ImageSource source) async {
     final picker = ImagePicker();

@@ -33,18 +33,21 @@ class HomeCardComponent extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Wrap(
-          // padding: const EdgeInsets.all(20),
           children: [
             Center(child: makeImage()),
-            Divider(),
             const SpacerComponent(),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                item.title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+            const Divider(),
+            const SpacerComponent(),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  item.title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),

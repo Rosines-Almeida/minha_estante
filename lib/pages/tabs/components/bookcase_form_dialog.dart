@@ -3,10 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:minha_estante/commons/components/space_component.dart';
 import 'package:minha_estante/commons/helpers/convert_upper_case.dart';
 import 'package:minha_estante/entities/books_entity.dart';
-import 'package:minha_estante/enum/book_state_enum.dart';
 import 'package:minha_estante/providers/bookcase_provider.dart';
 import 'package:minha_estante/services/bookcase_service.dart';
-import 'package:provider/provider.dart';
 
 class BookCaseFormDialog extends StatefulWidget {
   final void Function(BooksEntity item) callback;
@@ -30,8 +28,6 @@ class _BookCaseFormDialogState extends State<BookCaseFormDialog> {
       final item = BooksEntity(
         title: convertToUpperCase(_controllerTitle.text),
         numberPage: int.parse(_controllerNumberPage.text),
-        // state: StateBook.lerDepois,
-        uuid: 'uuid',
       );
       Navigator.pop(context);
       widget.callback(item);

@@ -43,7 +43,7 @@ class ProfileCardComponent extends StatelessWidget {
                         icon,
                         color: Colors.white,
                       ),
-                      SpacerComponent(
+                      const SpacerComponent(
                         isHorizontal: true,
                         size: 4,
                       ),
