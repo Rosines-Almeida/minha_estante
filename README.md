@@ -4,6 +4,11 @@
 Projeto final da schooj de flutter MJV
 
 ## Demonstração
+ <div align="center">  
+    <img src="https://github.com/Rosines-Almeida/minha_estante/assets/39601714/4c56f57c-0b1f-4a95-b784-9f6c2c689b69" width="500" />
+ </div> 
+
+ 
 
 
 ## Tecnologias Utilizadas
