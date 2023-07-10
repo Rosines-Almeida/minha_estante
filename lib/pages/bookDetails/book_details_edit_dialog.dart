@@ -29,7 +29,7 @@ class _BookDetailsEditDialogState extends State<BookDetailsEditDialog> {
           child: TextFormField(
             controller: _controllerNumberPageEdit,
             decoration: const InputDecoration(
-              labelText: 'Numero de páginas lidas',
+              labelText: 'Número de páginas lidas',
             ),
             keyboardType: TextInputType.number,
             inputFormatters: [
