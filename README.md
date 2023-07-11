@@ -2,6 +2,8 @@
 
 Aplicativo em flutter onde é possível adicionar livros e acompanhar o progresso da leitura <br>
 Projeto final da schooj de flutter MJV
+<p class="bold"> Visite:</p>
+https://minhaestante-a3585.web.app/#/
 
 ## Demonstração
  <div align="center">  
