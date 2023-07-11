@@ -27,7 +27,7 @@ Antes de começar, verifique se você tem os seguintes requisitos instalados em 
 Siga as etapas abaixo para instalar e executar o projeto localmente:<br>
 1 - Clone este repositório. <br>
 2 - Navegue até o diretório do projeto no terminal.<br>
-3 - Execute o comando ``flutter pub`` get para obter as dependências do projeto.<br>
+3 - Execute o comando ``flutter pub get``  para obter as dependências do projeto.<br>
 4 - Conecte um dispositivo ou inicie um emulador.<br>
 5 - Execute o comando ``flutter run ``para iniciar o aplicativo.<br>
 
