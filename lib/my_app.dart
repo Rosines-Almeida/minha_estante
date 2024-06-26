@@ -17,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     storeConfig = Provider.of<ConfigProvider>(context);
     return MaterialApp(
-      title: 'Minha Estante Virtual',
+      title: 'Estante',
       themeMode: storeConfig.tema,
       debugShowCheckedModeBanner: false,
       routes: AppRoutes.routes(),
