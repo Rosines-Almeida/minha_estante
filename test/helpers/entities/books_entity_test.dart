@@ -2,39 +2,54 @@ import 'package:test/test.dart';
 import 'package:minha_estante/entities/books_entity.dart';
 
 void main() {
+  late BooksEntity book;
+  late Map<String, dynamic> jsonResult;
+  late List<Map<String, dynamic>> arrayJson;
+  // late result;
+  setUp(() {
+    book = BooksEntity(
+      title: 'Book Title',
+      numberPage: 100,
+      image: 'book_image.jpg',
+      numberPageRead: 50,
+    );
+
+    jsonResult = {
+      'title': 'Book Title',
+      'numberPage': 100,
+      'image': 'book_image.jpg',
+      'numberPageRead': 50,
+    };
+
+    arrayJson = [
+      {
+        'title': 'Book 1',
+        'numberPage': 100,
+        'image': 'book1_image.jpg',
+        'numberPageRead': 50,
+      },
+      {
+        'title': 'Book 2',
+        'numberPage': 200,
+        'image': 'book2_image.jpg',
+        'numberPageRead': 100,
+      },
+    ];
+  });
+
   group('BooksEntity', () {
     test('toJson should return a valid JSON map', () {
-      // arrange
-      final book = BooksEntity(
-        title: 'Book Title',
-        numberPage: 100,
-        image: 'book_image.jpg',
-        numberPageRead: 50,
-      );
-
       // action
       final json = book.toJson();
-
       // assert
-      expect(json, {
-        'title': 'Book Title',
-        'numberPage': 100,
-        'image': 'book_image.jpg',
-        'numberPageRead': 50,
-      });
+      expect(json, jsonResult);
     });
 
     test('fromMap should return a valid BooksEntity object', () {
       // arrange
-      final map = {
-        'title': 'Book Title',
-        'numberPage': 100,
-        'image': 'book_image.jpg',
-        'numberPageRead': 50,
-      };
 
       // action
-      final book = BooksEntity.fromMap(map);
+      final book = BooksEntity.fromMap(jsonResult);
 
       // assert
       expect(book.title, 'Book Title');
@@ -44,24 +59,8 @@ void main() {
     });
 
     test('fromJsonList should return a list of BooksEntity objects', () {
-      // arrange
-      final json = [
-        {
-          'title': 'Book 1',
-          'numberPage': 100,
-          'image': 'book1_image.jpg',
-          'numberPageRead': 50,
-        },
-        {
-          'title': 'Book 2',
-          'numberPage': 200,
-          'image': 'book2_image.jpg',
-          'numberPageRead': 100,
-        },
-      ];
-
       // action
-      final books = BooksEntity.fromJsonList(json);
+      final books = BooksEntity.fromJsonList(arrayJson);
 
       // assert
       expect(books.length, 2);
